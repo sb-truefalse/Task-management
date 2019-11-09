@@ -1,0 +1,81 @@
+<div id='react_container_tasks_new'></div>
+
+<script type='text/babel'>
+  var destination = document.querySelector('#react_container_tasks_new');
+
+   class Title extends React.Component {
+  	render() {
+  	  var titleStyle = {
+		fontFamily: "sans-serif",
+		color: "#0080A8",
+        textAlign: "center"
+  	  };
+      return(
+        <h1 style={titleStyle}>Creation task</h1>
+      )
+    }
+  }
+
+  class Form extends React.Component {
+   render(){
+     var formError = {
+       title: 'Error',
+       status: '100'
+     }
+     return(
+ 	  <form path='/' method='post'>
+	    <input type="text" defaultValue="" placeholder="TODO" />
+	    <input type="button" id="button" defaultValue="Create"/>
+	  </form>
+     )
+   }
+  }
+
+   class Page extends React.Component {
+  	render() {
+  	  var pageStyle = {
+		    padding: "50px",
+		    backgroundColor: "#EEE",
+  	  };
+      return(
+      	<div style={pageStyle}>
+          <Title/>
+          <Form/>
+        </div>
+      )
+    }
+  }
+
+  class ErrorMessage extends React.Component {
+    render() {
+      var errorMessageStyle = {
+        color: 'red'
+      };
+      return(<h1 style={errorMessageStyle} >{this.props.message}. Code: {this.props.code}</h1>)
+    }
+  }
+
+  class Error extends React.Component {
+    render() {
+      var errorStyle = {};
+      if (this.props.is_error) {
+        return(
+          <div style={errorStyle}>
+            <ErrorMessage {...this.props} />
+          </div>
+        )
+      }
+      else {
+        return(<div></div>)
+      }
+    }
+  }
+
+  ReactDOM.render(
+    <div>
+      <Page/>
+      <Error is_error={true} message={"Form don't work"} code={100}/>
+    </div>,
+    destination
+  );
+</script>

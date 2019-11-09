@@ -1,0 +1,202 @@
+<div id='react_container'></div>
+<script type='text/babel'>
+
+  class Title extends React.Component {
+  	render() {
+  	  var titleStyle = {
+		    fontSize: "72px",
+		    fontFamily: "sans-serif",
+		    color: "#0080A8",
+        textAlign: "center"
+  	  };
+      return(
+        <React.Fragment>
+          { /* <>Don't work!</>*/ }
+          <h1 style={titleStyle} //<>Don't work!</>
+            /*
+              <>Don't work!</>
+            */
+          >Tasks Managment</h1>
+          <a href='/tasks'>Control your time</a>
+        </React.Fragment>
+      );
+    }
+  }
+
+  class StatisticsTimeCounter extends React.Component {
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        strikes: 0
+      };
+
+      this.timerTick = this.timerTick.bind(this);
+    }
+
+    timerTick() {
+      this.setState((prevState) => {
+        return {
+          strikes: prevState.strikes + 1
+        };
+      });
+  }
+
+  componentDidMount() {
+      setInterval(this.timerTick, 60000);
+  }
+
+  render() {
+      var statisticsTimeCounterStyle = {
+      };
+      return(
+        <div style={statisticsTimeCounterStyle}>
+          <p>Minutes: {this.state.strikes}</p>
+        </div>
+      )
+    }
+  }
+
+  class Statistics extends React.Component {
+    render() {
+      var statisticsStyle = {
+        width: 250,
+        textAlign: 'center',
+        backgroundColor: '#333',
+        fontFamily: 'sans-serif',
+        color: '#999'
+      };
+      return(
+        <div style={statisticsStyle}>
+          <StatisticsTimeCounter/>
+        </div>
+      )
+    }
+  }
+
+  function showHeader() {
+    var title = <Title/>;
+    var pageStyle = {
+      padding: "50px",
+      backgroundColor: "#EEE",
+    };
+    return(
+      <div style={pageStyle}>
+        {title}
+      </div>
+    );
+  }
+
+  class Like extends React.Component {
+    constructor(props){
+      super(props);
+
+      this.state = {
+        count: 0
+      }
+
+      this.increase = this.increase.bind(this);
+    }
+
+    increase(e){
+      /*
+        e - syntheticEvent
+        boolean bubbles
+        boolean cancelable
+        DOMEventTarget currentTarget
+        boolean defaultPrevented
+        number eventPhase
+        DOMEvent nativeEvent
+        void preventDefault()
+        boolean isDefault()
+        boolean isDefaultPrevented()
+        void stopPropagation()
+        boolean isPropagationStopped()
+        DOMEventTarget target
+        number timeStamp
+        string type
+      */
+      var currentCount = this.state.count;
+
+      if(e.shiftKey) {
+        currentCount += 10;
+      } else {
+        currentCount += 1;
+      }
+
+      this.setState({
+        count: currentCount
+      });
+    }
+
+    render() {
+      var likeStyle = {
+        margin: 10,
+        fontSize: '1em',
+        textAlign: 'center',
+        backgroundColor: '#FFC53A',
+        borderRadius: 10,
+        fontWeight: 'bold'
+      }
+      return(
+        <button onClick={this.increase} style={likeStyle}>{this.state.count} +</button>
+      )
+    }
+  }
+
+  class Project extends React.Component {
+    render() {
+      var circleMenuStyle = {
+        padding: 10,
+        margin: 20,
+        display: 'inline-block',
+        backgroundColor: this.props.bgColor,
+        borderRadius: '50%',
+        width: 200,
+        height: 200,
+        lineHeight: '200px',
+        textAlign: 'center',
+        color: '#393E41'
+      };
+      return(
+        <div style={circleMenuStyle}>
+          {this.props.title}
+          <Like/>
+        </div>
+      )
+    }
+  }
+
+  class Projects extends React.Component {
+    render(){
+      var colors = ['#E94F37', '#1C89BF', '#A1D363',
+                    '#85FFC7', '#297373', '#FF8552', '#A40E4C'];
+
+      var projects = <%= @projects.map(&:title) %>;
+      var renderData = [];
+
+      for(var i = 0; i < colors.length; i++) {
+        renderData.push(<Project key={i + colors[i]} bgColor={colors[i]} title={projects[i]}/>);
+      }
+      return renderData;
+    };
+  }
+
+  class Page extends React.Component {
+  	render() {
+      var title = <Title/>;
+      return(
+        <React.Fragment>
+          {showHeader()}
+          <Projects/>
+          <Statistics/>
+        </React.Fragment>
+      )
+    }
+  }
+
+  ReactDOM.render(
+    <Page/>,
+    document.querySelector('#react_container')
+  );
+</script>

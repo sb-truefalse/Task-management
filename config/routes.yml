@@ -1,0 +1,13 @@
+'GET':
+  '/assets/application.js': 'application.js'
+  '/assets/application.css': 'application.css'
+  '': 'projects#index'
+  '/new': 'projects#new'
+  '/contacts': 'contacts#index'
+  '/tasks': 'tasks#index'
+  '/tasks/:id': 'tasks#show'
+  '/tasks/new': 'tasks#new'
+  '/tasks/edit/:id': 'tasks#edit'
+'POST':
+  '/tasks': 'tasks#create'
+  '/': 'projects#create'

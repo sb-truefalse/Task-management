@@ -1,0 +1,83 @@
+<div id='react_container'></div>
+<script type='text/babel'>
+  class Title extends React.Component {
+    render() {
+      var titleStyle = {
+      };
+      return <h1 style={titleStyle}>TASK</h1>
+    }
+  };
+
+  class TaskTitle extends React.Component {
+    render() {
+      var taskTitleStyle = {
+        height: 150,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        backgroundColor: this.props.backgroundColor
+      }
+      return(
+      <div style={taskTitleStyle}>
+        <p>{this.props.title}</p>
+      </div>
+      )
+    }
+  };
+
+  class TaskTime extends React.Component {
+    render() {
+      var taskTimeStyle = {
+        fontFamily: 'sans-serif',
+        fontWeight: 'bold',
+        padding: 13,
+        margin: 0
+      }
+      return(
+      <p style={taskTimeStyle}>{this.props.time}</p>
+      )
+    }
+  };
+
+  class Task extends React.Component {
+    render() {
+      var taskStyle = {
+        height: 200,
+        width: 150,
+        padding: 0,
+        backgroundColor: "#FFF",
+        boxShadow: "0px 0px 5px #666"
+      }
+
+      var done = "<%= @task.done %>";
+      var title = "<%= @task.title %>";
+      var created_at = "<%= @task.created_at.strftime('%Y-%m-%d %H:%M') %>";
+      done = done.length > 0 ? '#6663FF' : '#FF6663';
+      return(
+      <div style={taskStyle}>
+        <TaskTitle title={title} backgroundColor={done}/>
+        <TaskTime time={created_at}/>
+      </div>
+      )
+    }
+  };
+
+  class Page extends React.Component {
+    render() {
+      var pageStyle = {
+        padding: '50px',
+        backgroundColor: '#EEE'
+      };
+      return(
+      <div style={pageStyle}>
+        <Title/>
+        <Task/>
+      </div>
+      )
+    };
+  };
+
+  ReactDOM.render(
+    <Page/>,
+    document.querySelector('#react_container')
+  );
+</script>
