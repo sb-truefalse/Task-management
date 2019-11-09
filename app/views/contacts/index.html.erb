@@ -1,0 +1,95 @@
+<div id='react_container'></div>
+<script type="text/babel">
+  class Timer extends React.Component {
+    constructor(props){
+      super(props);
+
+      this.state = {
+        tik: 0
+      };
+
+      this.tak = this.tak.bind(this);
+    }
+
+    componentDidMount() {
+      setInterval(this.tak, 60000)
+    }
+
+    tak(){
+      this.setState( (prevState) =>
+        {
+          return {
+            tik: this.state.tik + 1
+          }
+        }
+      )
+    }
+
+    render() {
+      var timerStyle = {
+        display: 'block',
+        border: '1px solid black',
+        borderRadius: '10px',
+        width: '200px',
+        textAlign: 'center'
+      };
+      return(
+        <p style={timerStyle}>Timer: {this.state.tik} min</p>
+      )
+    }
+  };
+
+  class Title extends React.Component {
+    render() {
+      var titleStyle = {
+      };
+      return <h1 style={titleStyle}>Contacts</h1>
+    }
+  };
+
+  class ContactLink extends React.Component {
+    render() {
+      var contactLinkStyle = {
+      };
+      return(
+        <React.Fragment>
+          <p>{this.props.children}: </p>
+          <a href='' style={contactLinkStyle}>{this.props.link}</a>
+        </React.Fragment>
+      )
+    }
+  };
+
+  class Contacts extends React.Component {
+    render() {
+      var contactsStyle = {
+      };
+      var {email, phone} = this.props;
+      return(
+        <div style={contactsStyle}>
+          <ContactLink link={email}>Email</ContactLink>
+          <ContactLink link={phone}>Phone</ContactLink>
+        </div>
+      )
+    }
+  };
+
+  class Page extends React.Component {
+    render(){
+      var pageStyle = {
+      };
+      return(
+      <div style={pageStyle}>
+        <Title/>
+        <Contacts {...this.props}/>
+        <Timer/>
+      </div>
+      )
+    }
+  }
+
+  ReactDOM.render(
+    <Page email={'<%= @contact.email %>'} phone={'<%= @contact.phone %>'} />,
+    document.querySelector('#react_container')
+  )
+</script>
